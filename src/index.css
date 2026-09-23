@@ -1,6 +1,67 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
 
-:root { --ink: #13202b; --muted: #65727c; --border: #d9e1df; --accent: #e4572e; --accent-dark: #bd3f1d; color: var(--muted); background: #f4f6f1; font-family: 'DM Sans', sans-serif; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+:root {
+  --bg: #f3f6fb;
+  --bg-strong: #eaf0f7;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-strong: #ffffff;
+  --surface-alt: #eef3f9;
+  --ink: #101827;
+  --muted: #5b6475;
+  --border: rgba(148, 163, 184, 0.28);
+  --accent: #ff8a3d;
+  --accent-dark: #ea6d28;
+  --accent-soft: #fff0e6;
+  --success: #1b9c73;
+  --danger: #ce3d45;
+  --shadow: rgba(15, 23, 42, 0.12);
+  --shadow-strong: rgba(15, 23, 42, 0.18);
+  color: var(--muted);
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body[data-theme='dark'] {
+  --bg: #0f172a;
+  --bg-strong: #111c2d;
+  --surface: rgba(15, 23, 42, 0.78);
+  --surface-strong: #182334;
+  --surface-alt: #0d1b2b;
+  --ink: #edf3ff;
+  --muted: #a9b5c7;
+  --border: rgba(148, 163, 184, 0.2);
+  --accent: #ff9f43;
+  --accent-dark: #f2842d;
+  --accent-soft: rgba(255, 143, 64, 0.12);
+  --success: #4ed1a1;
+  --danger: #ff7c81;
+  --shadow: rgba(2, 6, 23, 0.45);
+  --shadow-strong: rgba(2, 6, 23, 0.6);
+}
+
 * { box-sizing: border-box; }
-body { min-width: 320px; min-height: 100vh; margin: 0; background: radial-gradient(circle at 85% 0%, #dcece2 0, transparent 34rem), #f4f6f1; }
-code { padding: 3px 6px; color: var(--ink); background: #e8eeeb; font-family: Consolas, monospace; font-size: .88em; }
+html { scroll-behavior: smooth; }
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 155, 86, 0.13), transparent 28%),
+    radial-gradient(circle at top right, rgba(74, 109, 255, 0.08), transparent 24%),
+    var(--bg);
+  color: var(--ink);
+}
+
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+code {
+  padding: 3px 8px;
+  color: var(--ink);
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: Consolas, monospace;
+  font-size: .88em;
+}

@@ -43,3 +43,31 @@ export async function agregarProducto(datos: NuevoProducto): Promise<Producto> {
   }
   return response.json();
 }
+
+export async function obtenerCatalogo(): Promise<Producto[]> {
+  const response = await apiFetch('/api/productos');
+  if (!response.ok) {
+    throw new Error(`El backend respondio ${response.status} al pedir el inventario`);
+  }
+  return response.json();
+}
+
+export async function eliminarProducto(id: number): Promise<void> {
+  const response = await apiFetch(`/api/productos/${id}`, { method: 'DELETE' });
+  if (!response.ok) {
+    const cuerpo = await response.json().catch(() => null);
+    throw new Error(cuerpo?.mensaje ?? `El backend respondio ${response.status} al eliminar el producto`);
+  }
+}
+
+export async function actualizarProducto(id: number, datos: NuevoProducto): Promise<Producto> {
+  const response = await apiFetch(`/api/productos/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(datos),
+  });
+  if (!response.ok) {
+    const cuerpo = await response.json().catch(() => null);
+    throw new Error(cuerpo?.mensaje ?? `El backend respondio ${response.status} al actualizar el producto`);
+  }
+  return response.json();
+}
