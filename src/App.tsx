@@ -16,6 +16,18 @@ function getStoredTheme(): ThemeMode {
   return stored === 'light' || stored === 'dark' ? stored : 'dark';
 }
 
+const matrixCharacters = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポ';
+
+function MatrixBackground() {
+  return (
+    <div className="jp-matrix" aria-hidden="true">
+      {Array.from({ length: 1200 }, (_, index) => (
+        <span key={index}>{matrixCharacters[index % matrixCharacters.length]}</span>
+      ))}
+    </div>
+  );
+}
+
 type FiltroSelectProps = {
   value: string;
   placeholder: string;
@@ -121,19 +133,19 @@ function App() {
       .finally(() => setCargandoSesion(false));
   }, []);
 
+  async function cargarCatalogo() {
+    setCargandoCatalogo(true);
+    try {
+      setCatalogo(await obtenerCatalogo());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error desconocido');
+    } finally {
+      setCargandoCatalogo(false);
+    }
+  }
+
   useEffect(() => {
     if (!logueado) return;
-
-    async function cargarCatalogo() {
-      setCargandoCatalogo(true);
-      try {
-        setCatalogo(await obtenerCatalogo());
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido');
-      } finally {
-        setCargandoCatalogo(false);
-      }
-    }
 
     void cargarCatalogo();
   }, [logueado]);
@@ -254,6 +266,7 @@ function App() {
 
   return (
     <div className="app-shell">
+      <MatrixBackground />
       <div className="app">
         <header className="app-header">
           <div className="brand-block">
@@ -343,7 +356,16 @@ function App() {
                   <p className="eyebrow">INVENTARIO ACTUAL</p>
                   <h2>Productos registrados</h2>
                 </div>
-                <span>{catalogoFiltrado.length} de {catalogo.length} productos</span>
+                <div className="section-heading-actions">
+                  <span>{catalogoFiltrado.length} de {catalogo.length} productos</span>
+                  <button type="button" className="refresh-button" disabled={cargandoCatalogo} onClick={() => void cargarCatalogo()} aria-label="Refrescar inventario">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+                      <path fillRule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
+                    </svg>
+                    {cargandoCatalogo ? 'Refrescando...' : 'Refrescar'}
+                  </button>
+                </div>
               </div>
               <div className="filtros-catalogo" aria-label="Filtros del inventario">
                 <input
